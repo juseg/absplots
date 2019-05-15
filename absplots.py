@@ -71,10 +71,10 @@ def figure(**kw):
     """Create a new figure with dimensions in inches."""
 
     # by default select custom figure class
-    FigureClass = kw.pop('FigureClass', AbsFigure)
+    figure_class = kw.pop('FigureClass', AbsFigure)
 
     # create a new figure
-    fig = plt.figure(FigureClass=FigureClass, **kw)
+    fig = plt.figure(FigureClass=figure_class, **kw)
     return fig
 
 

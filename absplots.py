@@ -16,13 +16,35 @@ class AbsFigure(mfig.Figure):
     """Custom figure class allowing absolute subplot dimensioning."""
 
     def add_axes_inches(self, rect, **kwargs):
-        """Create new axes with dimensions in inches."""
+        """
+        Create new axes with dimensions in inches.
+
+        Parameters
+        ----------
+        rect : list of float
+            The dimensions [left, bottom, width, height] of the new axes in
+            inches.
+        **kwargs:
+            Additional keyword arguments are passed to
+            :meth:`matplotlib.figure.Figure.add_axes`.
+        """
         figw, figh = self.get_size_inches()
         rect = [rect[0]/figw, rect[1]/figh, rect[2]/figw, rect[3]/figh]
         return self.add_axes(rect, **kwargs)
 
     def add_axes_mm(self, rect, **kwargs):
-        """Create new axes with dimensions in mm."""
+        """
+        Create new axes with dimensions in millimeters.
+
+        Parameters
+        ----------
+        rect : list of float
+            The dimensions [left, bottom, width, height] of the new axes in
+            millimeters.
+        **kwargs:
+            Additional keyword arguments are passed to
+            :meth:`matplotlib.figure.Figure.add_axes`.
+        """
         return self.add_axes_inches([x/25.4 for x in rect], **kwargs)
 
     def get_size_mm(self):

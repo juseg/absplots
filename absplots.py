@@ -51,7 +51,7 @@ class AbsFigure(mfig.Figure):
         """Returns the current size of the figure in mm as an numpy array."""
         return self.get_size_inches()*25.4
 
-    def subplots_inches(self, nrows=1, ncols=1, gridspec_kw=None, **kw):
+    def subplots_inches(self, nrows=1, ncols=1, gridspec_kw=None, **kwargs):
         """Create subplots with dimensions in inches."""
 
         # get figure dimensions in inches
@@ -80,9 +80,9 @@ class AbsFigure(mfig.Figure):
 
         # create subplots
         return mfig.Figure.subplots(self, nrows=nrows, ncols=ncols,
-                                    gridspec_kw=gridspec_kw, **kw)
+                                    gridspec_kw=gridspec_kw, **kwargs)
 
-    def subplots_mm(self, gridspec_kw=None, **kw):
+    def subplots_mm(self, gridspec_kw=None, **kwargs):
         """Create subplots with dimensions in mm."""
 
         # convert all non null arguments to inches
@@ -93,24 +93,24 @@ class AbsFigure(mfig.Figure):
                     gridspec_kw[dim] *= mm
 
         # create subplots
-        return self.subplots_inches(gridspec_kw=gridspec_kw, **kw)
+        return self.subplots_inches(gridspec_kw=gridspec_kw, **kwargs)
 
 
 # Figure helper functions
 # -----------------------
 
-def figure(**kw):
+def figure(**kwargs):
     """Create a new figure with dimensions in inches."""
 
     # by default select custom figure class
-    figure_class = kw.pop('FigureClass', AbsFigure)
+    figure_class = kwargs.pop('FigureClass', AbsFigure)
 
     # create a new figure
-    fig = plt.figure(FigureClass=figure_class, **kw)
+    fig = plt.figure(FigureClass=figure_class, **kwargs)
     return fig
 
 
-def figure_mm(figsize=None, **kw):
+def figure_mm(figsize=None, **kwargs):
     """Create a new figure with dimensions in mm."""
 
     # convert figure size to mm
@@ -120,7 +120,7 @@ def figure_mm(figsize=None, **kw):
         figsize = (figw*mm, figh*mm)
 
     # create new figure
-    fig = figure(figsize=figsize, **kw)
+    fig = figure(figsize=figsize, **kwargs)
     return fig
 
 

@@ -4,13 +4,12 @@
 Absplots
 ========
 
-.. Here come badges after the first release
-   .. image:: https://img.shields.io/pypi/v/absplots.svg
-      :target: https://pypi.python.org/pypi/absplots
-   .. image:: https://img.shields.io/pypi/l/absplots.svg
-      :target: https://www.gnu.org/licenses/gpl-3.0.txt
-   .. image:: https://zenodo.org/badge/0000000.svg
-      :target: https://zenodo.org/badge/latestdoi/0000000
+.. image:: https://img.shields.io/pypi/v/absplots.svg
+   :target: https://pypi.python.org/pypi/absplots
+.. image:: https://img.shields.io/pypi/l/absplots.svg
+   :target: https://www.gnu.org/licenses/gpl-3.0.txt
+.. image:: https://zenodo.org/badge/186842763.svg
+   :target: https://zenodo.org/badge/latestdoi/186842763
 
 Matplotlib_ subplots with absolute margins in mm or inches.
 

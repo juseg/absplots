@@ -15,6 +15,53 @@ import matplotlib.figure as mfig
 class AbsFigure(mfig.Figure):
     """Custom figure class allowing absolute subplot dimensioning."""
 
+    def _process_kw_inches(self, nrows, ncols, gridspec_kw):
+        """Convert gridspec keywords from inches to relative."""
+
+        # get figure dimensions in inches
+        figw, figh = self.get_size_inches()
+
+        # get default gridspec params
+        # FIXME it would be more logical to read defaults as ratios not inches)
+        if gridspec_kw is None:
+            gridspec_kw = {}
+        left = gridspec_kw.pop('left', self.subplotpars.left)
+        right = gridspec_kw.pop('right', self.subplotpars.right)
+        bottom = gridspec_kw.pop('bottom', self.subplotpars.bottom)
+        top = gridspec_kw.pop('top', self.subplotpars.top)
+        wspace = gridspec_kw.pop('wspace', self.subplotpars.wspace)
+        hspace = gridspec_kw.pop('hspace', self.subplotpars.hspace)
+
+        # normalize inner spacing to axes dimensions
+        if wspace != 0.0:
+            wspace = (((figw-left-right)/wspace+1)/ncols-1)**(-1)
+        if hspace != 0.0:
+            hspace = (((figh-bottom-top)/hspace+1)/nrows-1)**(-1)
+
+        # normalize outer margins to figure dimensions
+        gridspec_kw.update(left=left/figw, right=1-right/figw,
+                           bottom=bottom/figh, top=1-top/figh,
+                           wspace=wspace, hspace=hspace)
+
+        # return processed keywords
+        return gridspec_kw
+
+    def _process_kw_mm(self, nrows, ncols, gridspec_kw):
+        """Convert gridspec keywords from mm to relative."""
+
+        # convert all non null arguments to inches
+        mm = 1/25.4
+        if gridspec_kw is not None:
+            for dim in ['left', 'right', 'bottom', 'top', 'wspace', 'hspace']:
+                if dim in gridspec_kw:
+                    gridspec_kw[dim] *= mm
+
+        # convert from inches to relative
+        gridspec_kw = self._process_kw_inches(nrows, ncols, gridspec_kw)
+
+        # return processed keywords
+        return gridspec_kw
+
     def add_axes_inches(self, rect, **kwargs):
         """
         Create new axes with dimensions in inches.
@@ -54,46 +101,22 @@ class AbsFigure(mfig.Figure):
     def subplots_inches(self, nrows=1, ncols=1, gridspec_kw=None, **kwargs):
         """Create subplots with dimensions in inches."""
 
-        # get figure dimensions in inches
-        figw, figh = self.get_size_inches()
-
-        # get default gridspec params
-        if gridspec_kw is None:
-            gridspec_kw = {}
-        left = gridspec_kw.pop('left', self.subplotpars.left)
-        right = gridspec_kw.pop('right', self.subplotpars.right)
-        bottom = gridspec_kw.pop('bottom', self.subplotpars.bottom)
-        top = gridspec_kw.pop('top', self.subplotpars.top)
-        wspace = gridspec_kw.pop('wspace', self.subplotpars.wspace)
-        hspace = gridspec_kw.pop('hspace', self.subplotpars.hspace)
-
-        # normalize inner spacing to axes dimensions
-        if wspace != 0.0:
-            wspace = (((figw-left-right)/wspace+1)/ncols-1)**(-1)
-        if hspace != 0.0:
-            hspace = (((figh-bottom-top)/hspace+1)/nrows-1)**(-1)
-
-        # normalize outer margins to figure dimensions
-        gridspec_kw.update(left=left/figw, right=1-right/figw,
-                           bottom=bottom/figh, top=1-top/figh,
-                           wspace=wspace, hspace=hspace)
+        # convert gridspec keywords
+        gridspec_kw = self._process_kw_inches(nrows, ncols, gridspec_kw)
 
         # create subplots
         return mfig.Figure.subplots(self, nrows=nrows, ncols=ncols,
                                     gridspec_kw=gridspec_kw, **kwargs)
 
-    def subplots_mm(self, gridspec_kw=None, **kwargs):
+    def subplots_mm(self, nrows=1, ncols=1, gridspec_kw=None, **kwargs):
         """Create subplots with dimensions in mm."""
 
-        # convert all non null arguments to inches
-        mm = 1/25.4
-        if gridspec_kw is not None:
-            for dim in ['left', 'right', 'bottom', 'top', 'wspace', 'hspace']:
-                if dim in gridspec_kw:
-                    gridspec_kw[dim] *= mm
+        # convert gridspec keywords
+        gridspec_kw = self._process_kw_mm(nrows, ncols, gridspec_kw)
 
         # create subplots
-        return self.subplots_inches(gridspec_kw=gridspec_kw, **kwargs)
+        return mfig.Figure.subplots(self, nrows=nrows, ncols=ncols,
+                                    gridspec_kw=gridspec_kw, **kwargs)
 
 
 # Figure helper functions

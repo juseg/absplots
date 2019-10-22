@@ -192,34 +192,9 @@ def figure_mm(figsize=None, **kwargs):
 # Subplot helper functions
 # ------------------------
 
-def subplots(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,
-             subplot_kw=None, gridspec_kw=None, projection=None, **fig_kw):
-    """Same as matplotlib function but allow a projection argument."""
-
-    # pass projection argument to subplot keywords
-    if subplot_kw is None:
-        subplot_kw = {}
-    if projection is not None:
-        subplot_kw['projection'] = projection
-
-    # create new figure and axes
-    fig = figure(**fig_kw)
-    axs = fig.subplots(nrows=nrows, ncols=ncols, sharex=sharex, sharey=sharey,
-                       squeeze=squeeze, subplot_kw=subplot_kw,
-                       gridspec_kw=gridspec_kw)
-    return fig, axs
-
-
 def subplots_inches(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,
-                    subplot_kw=None, gridspec_kw=None, projection=None,
-                    **fig_kw):
+                    subplot_kw=None, gridspec_kw=None, **fig_kw):
     """Create figure and subplots with dimensions in inches."""
-
-    # pass projection argument to subplot keywords
-    if subplot_kw is None:
-        subplot_kw = {}
-    if projection is not None:
-        subplot_kw['projection'] = projection
 
     # create new figure and axes
     fig = figure(**fig_kw)
@@ -230,14 +205,8 @@ def subplots_inches(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,
 
 
 def subplots_mm(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,
-                subplot_kw=None, gridspec_kw=None, projection=None, **fig_kw):
+                subplot_kw=None, gridspec_kw=None, **fig_kw):
     """Create figure and subplots with dimensions in mm."""
-
-    # pass projection argument to subplot keywords
-    if subplot_kw is None:
-        subplot_kw = {}
-    if projection is not None:
-        subplot_kw['projection'] = projection
 
     # create new figure and axes
     fig = figure_mm(**fig_kw)

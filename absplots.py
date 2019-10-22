@@ -94,6 +94,48 @@ class AbsFigure(mfig.Figure):
         """
         return self.add_axes_inches([x/25.4 for x in rect], **kwargs)
 
+    def add_gridspec_inches(self, nrows, ncols, **kwargs):
+        """
+        Create new gridspec with dimensions in inches.
+
+        Parameters
+        ----------
+        nrows : int
+            Number of rows in grid.
+        ncols : int
+            Number of columns in grid.
+        **kwargs:
+            Additional gridspec keyword arguments read as absolute values in
+            inches and passed to :meth:`matplotlib.figure.Figure.add_gridspec`.
+        """
+
+        # convert gridspec keywords
+        kwargs = self._process_kw_inches(nrows, ncols, kwargs)
+
+        # return new gridspec
+        return self.add_gridspec(nrows=nrows, ncols=ncols, **kwargs)
+
+    def add_gridspec_mm(self, nrows, ncols, **kwargs):
+        """
+        Create new gridspec with dimensions in millimeters.
+
+        Parameters
+        ----------
+        nrows : int
+            Number of rows in grid.
+        ncols : int
+            Number of columns in grid.
+        **kwargs:
+            Additional gridspec keyword arguments read as absolute values in
+            mm and passed to :meth:`matplotlib.figure.Figure.add_gridspec`.
+        """
+
+        # convert gridspec keywords
+        kwargs = self._process_kw_mm(nrows, ncols, kwargs)
+
+        # return new gridspec
+        return self.add_gridspec(nrows=nrows, ncols=ncols, **kwargs)
+
     def get_size_mm(self):
         """Returns the current size of the figure in mm as an numpy array."""
         return self.get_size_inches()*25.4

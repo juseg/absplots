@@ -22,7 +22,7 @@ class AbsFigure(mfig.Figure):
         figw, figh = self.get_size_inches()
 
         # get default gridspec params
-        # FIXME it would be more logical to read defaults as ratios not inches)
+        # FIXME it would be more logical to read defaults as ratios not inches
         if gridspec_kw is None:
             gridspec_kw = {}
         left = gridspec_kw.pop('left', self.subplotpars.left)
@@ -71,7 +71,7 @@ class AbsFigure(mfig.Figure):
         rect : list of float
             The dimensions [left, bottom, width, height] of the new axes in
             inches.
-        **kwargs:
+        **kwargs :
             Additional keyword arguments are passed to
             :meth:`matplotlib.figure.Figure.add_axes`.
         """
@@ -88,7 +88,7 @@ class AbsFigure(mfig.Figure):
         rect : list of float
             The dimensions [left, bottom, width, height] of the new axes in
             millimeters.
-        **kwargs:
+        **kwargs :
             Additional keyword arguments are passed to
             :meth:`matplotlib.figure.Figure.add_axes`.
         """
@@ -104,7 +104,7 @@ class AbsFigure(mfig.Figure):
             Number of rows in grid.
         ncols : int
             Number of columns in grid.
-        **kwargs:
+        **kwargs :
             Additional gridspec keyword arguments read as absolute values in
             inches and passed to :meth:`matplotlib.figure.Figure.add_gridspec`.
         """
@@ -125,7 +125,7 @@ class AbsFigure(mfig.Figure):
             Number of rows in grid.
         ncols : int
             Number of columns in grid.
-        **kwargs:
+        **kwargs :
             Additional gridspec keyword arguments read as absolute values in
             mm and passed to :meth:`matplotlib.figure.Figure.add_gridspec`.
         """
@@ -141,24 +141,56 @@ class AbsFigure(mfig.Figure):
         return self.get_size_inches()*25.4
 
     def subplots_inches(self, nrows=1, ncols=1, gridspec_kw=None, **kwargs):
-        """Create subplots with dimensions in inches."""
+        """
+        Add a set of subplots to this figure with dimensions in inches.
+
+        Parameters
+        ----------
+        nrows : int
+            Number of rows in grid.
+        ncols : int
+            Number of columns in grid.
+        gridspec_kw : dict
+            Dictionary containing any of the gridspec keywords (left, right,
+            top, bottom, wspace, hspace, width_ratios, height_ratios) where all
+            dimensions are interpreted as absolute values in inches.
+        **kwargs :
+            Additional keyword arguments are passed to
+            :meth:`matplotlib.figure.Figure.subplots`.
+        """
 
         # convert gridspec keywords
         gridspec_kw = self._process_kw_inches(nrows, ncols, gridspec_kw)
 
         # create subplots
-        return mfig.Figure.subplots(self, nrows=nrows, ncols=ncols,
-                                    gridspec_kw=gridspec_kw, **kwargs)
+        return self.subplots(nrows=nrows, ncols=ncols,
+                             gridspec_kw=gridspec_kw, **kwargs)
 
     def subplots_mm(self, nrows=1, ncols=1, gridspec_kw=None, **kwargs):
-        """Create subplots with dimensions in mm."""
+        """
+        Add a set of subplots to this figure with dimensions in millimeters.
+
+        Parameters
+        ----------
+        nrows : int
+            Number of rows in grid.
+        ncols : int
+            Number of columns in grid.
+        gridspec_kw : dict
+            Dictionary containing any of the gridspec keywords (left, right,
+            top, bottom, wspace, hspace, width_ratios, height_ratios) where all
+            dimensions are interpreted as absolute values in millimeters.
+        **kwargs :
+            Additional keyword arguments are passed to
+            :meth:`matplotlib.figure.Figure.subplots`.
+        """
 
         # convert gridspec keywords
         gridspec_kw = self._process_kw_mm(nrows, ncols, gridspec_kw)
 
         # create subplots
-        return mfig.Figure.subplots(self, nrows=nrows, ncols=ncols,
-                                    gridspec_kw=gridspec_kw, **kwargs)
+        return self.subplots(nrows=nrows, ncols=ncols,
+                             gridspec_kw=gridspec_kw, **kwargs)
 
 
 # Figure helper functions

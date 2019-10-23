@@ -197,7 +197,22 @@ class AbsFigure(mfig.Figure):
 # -----------------------
 
 def figure(**kwargs):
-    """Create a new figure with dimensions in inches."""
+    """
+    Create a new figure with dimensions in inches.
+
+    Parameters
+    ----------
+    **kwargs :
+        All keyword arguments are passed to :meth:`matplotlib.pyplot.figure`.
+
+    Returns
+    -------
+    figure : :class:`AbsFigure`
+        An :class:`AbsFigure` instance with methods to create new axes and
+        subplots in absolute dimensions in inches or mm, or a figure of the
+        custom `FigureClass` provided.
+
+    """
 
     # by default select custom figure class
     figure_class = kwargs.pop('FigureClass', AbsFigure)
@@ -208,7 +223,23 @@ def figure(**kwargs):
 
 
 def figure_mm(figsize=None, **kwargs):
-    """Create a new figure with dimensions in mm."""
+    """
+    Create a new figure with dimensions in millimeters.
+
+    Parameters
+    ----------
+    figsize : (scalar, scalar)
+        The figure width and height in millimeters.
+    **kwargs :
+        Additional keyword arguments are passed to :meth:`figure`.
+
+    Returns
+    -------
+    figure : :class:`AbsFigure`
+        An :class:`AbsFigure` instance with methods to create new axes and
+        subplots in absolute dimensions in inches or mm, or a figure of the
+        custom `FigureClass` provided.
+    """
 
     # convert figure size to mm
     mm = 1/25.4
@@ -225,7 +256,30 @@ def figure_mm(figsize=None, **kwargs):
 # ------------------------
 
 def subplots_inches(nrows=1, ncols=1, **kwargs):
-    """Create figure and subplots with dimensions in inches."""
+    """
+    Create new figure and subplots with dimensions in inches.
+
+    Parameters
+    ----------
+    nrows : int
+        Number of rows in the subplot grid.
+    ncols : int
+        Number of columns in the subplot grid.
+    **kwargs :
+        Keyword arguments sharex, sharey, squeeze, subplot_kw and gridspec_kw
+        are passed to :meth:`AbsFigure.subplots_inches`. Other keyword
+        arguments are interpreted as figure keywords and passed to
+        :meth:`figure`.
+
+    Returns
+    -------
+    figure : :class:`AbsFigure`
+        A figure whose size is controlled by the optional `figsize` argument
+        with values in inches.
+    axes : :class:`matplotlib.axes.Axes` or array of axes.
+        A single or multiple subplots whose placement is controlled by the
+        optional `gridspec_kw` argument with values in inches.
+    """
 
     # segregate subplots and figure keywords
     spl_keys = ['sharex', 'sharey', 'squeeze', 'subplot_kw', 'gridspec_kw']
@@ -239,7 +293,30 @@ def subplots_inches(nrows=1, ncols=1, **kwargs):
 
 
 def subplots_mm(nrows=1, ncols=1, **kwargs):
-    """Create figure and subplots with dimensions in mm."""
+    """
+    Create new figure and subplots with dimensions in millimeters.
+
+    Parameters
+    ----------
+    nrows : int
+        Number of rows in the subplot grid.
+    ncols : int
+        Number of columns in the subplot grid.
+    **kwargs :
+        Keyword arguments sharex, sharey, squeeze, subplot_kw and gridspec_kw
+        are passed to :meth:`AbsFigure.subplots_inches`. Other keyword
+        arguments are interpreted as figure keywords and passed to
+        :meth:`figure`.
+
+    Returns
+    -------
+    figure : :class:`AbsFigure`
+        A figure whose size is controlled by the optional `figsize` argument
+        with values in millimeters.
+    axes : :class:`matplotlib.axes.Axes` or array of axes.
+        A single or multiple subplots whose placement is controlled by the
+        optional `gridspec_kw` argument with values in millimeters.
+    """
 
     # segregate subplots and figure keywords
     spl_keys = ['sharex', 'sharey', 'squeeze', 'subplot_kw', 'gridspec_kw']

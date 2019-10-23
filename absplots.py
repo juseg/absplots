@@ -74,6 +74,11 @@ class AbsFigure(mfig.Figure):
         **kwargs :
             Additional keyword arguments are passed to
             :meth:`matplotlib.figure.Figure.add_axes`.
+
+        Returns
+        -------
+        axes : :class:`matplotlib.axes.Axes` (or a subclass)
+            The newly created axes, whose class depends on the projection used.
         """
         figw, figh = self.get_size_inches()
         rect = [rect[0]/figw, rect[1]/figh, rect[2]/figw, rect[3]/figh]
@@ -91,6 +96,11 @@ class AbsFigure(mfig.Figure):
         **kwargs :
             Additional keyword arguments are passed to
             :meth:`matplotlib.figure.Figure.add_axes`.
+
+        Returns
+        -------
+        axes : :class:`matplotlib.axes.Axes` (or a subclass)
+            The newly created axes, whose class depends on the projection used.
         """
         return self.add_axes_inches([x/25.4 for x in rect], **kwargs)
 
@@ -107,6 +117,11 @@ class AbsFigure(mfig.Figure):
         **kwargs :
             Additional gridspec keyword arguments read as absolute values in
             inches and passed to :meth:`matplotlib.figure.Figure.add_gridspec`.
+
+        Returns
+        -------
+        gridspec : :class:`matplotlib.gridspec.GridSpec`
+            The newly created gridspec.
         """
 
         # convert gridspec keywords
@@ -128,6 +143,11 @@ class AbsFigure(mfig.Figure):
         **kwargs :
             Additional gridspec keyword arguments read as absolute values in
             mm and passed to :meth:`matplotlib.figure.Figure.add_gridspec`.
+
+        Returns
+        -------
+        gridspec : :class:`matplotlib.gridspec.GridSpec`
+            The newly created gridspec.
         """
 
         # convert gridspec keywords
@@ -137,7 +157,14 @@ class AbsFigure(mfig.Figure):
         return self.add_gridspec(nrows=nrows, ncols=ncols, **kwargs)
 
     def get_size_mm(self):
-        """Returns the current size of the figure in mm as an numpy array."""
+        """
+        Returns the current size of the figure in millimeters.
+
+        Returns
+        -------
+        size : ndarray
+            The size (width, height) of the figure in millimeters.
+        """
         return self.get_size_inches()*25.4
 
     def subplots_inches(self, nrows=1, ncols=1, gridspec_kw=None, **kwargs):
@@ -157,6 +184,11 @@ class AbsFigure(mfig.Figure):
         **kwargs :
             Additional keyword arguments are passed to
             :meth:`matplotlib.figure.Figure.subplots`.
+
+        Returns
+        -------
+        axes : :class:`matplotlib.axes.Axes` or an array of axes
+            The newly created subplot(s).
         """
 
         # convert gridspec keywords
@@ -183,6 +215,11 @@ class AbsFigure(mfig.Figure):
         **kwargs :
             Additional keyword arguments are passed to
             :meth:`matplotlib.figure.Figure.subplots`.
+
+        Returns
+        -------
+        axes : :class:`matplotlib.axes.Axes` or an array of axes
+            The newly created subplot(s).
         """
 
         # convert gridspec keywords
@@ -211,7 +248,6 @@ def figure(**kwargs):
         An :class:`AbsFigure` instance with methods to create new axes and
         subplots in absolute dimensions in inches or mm, or a figure of the
         custom `FigureClass` provided.
-
     """
 
     # by default select custom figure class

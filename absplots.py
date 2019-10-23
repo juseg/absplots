@@ -224,25 +224,29 @@ def figure_mm(figsize=None, **kwargs):
 # Subplot helper functions
 # ------------------------
 
-def subplots_inches(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,
-                    subplot_kw=None, gridspec_kw=None, **fig_kw):
+def subplots_inches(nrows=1, ncols=1, **kwargs):
     """Create figure and subplots with dimensions in inches."""
+
+    # segregate subplots and figure keywords
+    spl_keys = ['sharex', 'sharey', 'squeeze', 'subplot_kw', 'gridspec_kw']
+    spl_kw = {key: kwargs[key] for key in kwargs if key in spl_keys}
+    fig_kw = {key: kwargs[key] for key in kwargs if key not in spl_keys}
 
     # create new figure and axes
     fig = figure(**fig_kw)
-    axs = fig.subplots_inches(nrows=nrows, ncols=ncols, sharex=sharex,
-                              sharey=sharey, squeeze=squeeze,
-                              subplot_kw=subplot_kw, gridspec_kw=gridspec_kw)
+    axs = fig.subplots_inches(nrows=nrows, ncols=ncols, **spl_kw)
     return fig, axs
 
 
-def subplots_mm(nrows=1, ncols=1, sharex=False, sharey=False, squeeze=True,
-                subplot_kw=None, gridspec_kw=None, **fig_kw):
+def subplots_mm(nrows=1, ncols=1, **kwargs):
     """Create figure and subplots with dimensions in mm."""
+
+    # segregate subplots and figure keywords
+    spl_keys = ['sharex', 'sharey', 'squeeze', 'subplot_kw', 'gridspec_kw']
+    spl_kw = {key: kwargs[key] for key in kwargs if key in spl_keys}
+    fig_kw = {key: kwargs[key] for key in kwargs if key not in spl_keys}
 
     # create new figure and axes
     fig = figure_mm(**fig_kw)
-    axs = fig.subplots_mm(nrows=nrows, ncols=ncols, sharex=sharex,
-                          sharey=sharey, squeeze=squeeze,
-                          subplot_kw=subplot_kw, gridspec_kw=gridspec_kw)
+    axs = fig.subplots_mm(nrows=nrows, ncols=ncols, **spl_kw)
     return fig, axs

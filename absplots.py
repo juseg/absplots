@@ -18,30 +18,34 @@ class AbsFigure(mfig.Figure):
     def _process_kw_inches(self, nrows, ncols, gridspec_kw):
         """Convert gridspec keywords from inches to relative."""
 
+        # if None provided, return None
+        if gridspec_kw is None:
+            return gridspec_kw
+
         # get figure dimensions in inches
         figw, figh = self.get_size_inches()
 
-        # get default gridspec params
-        # FIXME it would be more logical to read defaults as ratios not inches
-        if gridspec_kw is None:
-            gridspec_kw = {}
-        left = gridspec_kw.pop('left', self.subplotpars.left)
-        right = gridspec_kw.pop('right', self.subplotpars.right)
-        bottom = gridspec_kw.pop('bottom', self.subplotpars.bottom)
-        top = gridspec_kw.pop('top', self.subplotpars.top)
-        wspace = gridspec_kw.pop('wspace', self.subplotpars.wspace)
-        hspace = gridspec_kw.pop('hspace', self.subplotpars.hspace)
+        # convert outer margins to ratios
+        if 'left' in gridspec_kw:
+            gridspec_kw['left'] = gridspec_kw['left'] / figw
+        if 'right' in gridspec_kw:
+            gridspec_kw['right'] = 1 - gridspec_kw['right'] / figw
+        if 'bottom' in gridspec_kw:
+            gridspec_kw['bottom'] = gridspec_kw['bottom'] / figh
+        if 'top' in gridspec_kw:
+            gridspec_kw['top'] = 1 - gridspec_kw['top'] / figh
 
         # normalize inner spacing to axes dimensions
-        if wspace != 0.0:
-            wspace = (((figw-left-right)/wspace+1)/ncols-1)**(-1)
-        if hspace != 0.0:
-            hspace = (((figh-bottom-top)/hspace+1)/nrows-1)**(-1)
-
-        # normalize outer margins to figure dimensions
-        gridspec_kw.update(left=left/figw, right=1-right/figw,
-                           bottom=bottom/figh, top=1-top/figh,
-                           wspace=wspace, hspace=hspace)
+        if 'wspace' in gridspec_kw and gridspec_kw['wspace'] != 0.0:
+            left = gridspec_kw.get('left', self.subplotpars.left)
+            right = gridspec_kw.get('right', self.subplotpars.right)
+            gridspec_kw['wspace'] = (
+                (figw*(right-left)/gridspec_kw['wspace']+1)/ncols-1)**(-1)
+        if 'hspace' in gridspec_kw and gridspec_kw['hspace'] != 0.0:
+            bottom = gridspec_kw.get('bottom', self.subplotpars.bottom)
+            top = gridspec_kw.get('top', self.subplotpars.top)
+            gridspec_kw['hspace'] = (
+                (figh*(top-bottom)/gridspec_kw['hspace']+1)/nrows-1)**(-1)
 
         # return processed keywords
         return gridspec_kw

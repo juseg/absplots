@@ -171,6 +171,48 @@ class AbsFigure(mfig.Figure):
         """
         return self.get_size_inches()*25.4
 
+    def get_position_inches(self, ax=None, original=True):
+        """
+        Returns axes position in inches (is this useful?).
+
+        Parameters
+        ----------
+        original : bool
+            If True, return the original position. Otherwise return the active
+            position. See :meth:`matplotlib.axes.Axes.get_position`.
+
+        Returns
+        -------
+        pos : [left, bottom, width, height]
+            The axes position in inches.
+        """
+        ax = ax or self.gca()
+        figw, figh = self.get_size_inches()
+        pos = ax.get_position(original=original)
+        return [pos.x0*figw, pos.y0*figh,
+                (pos.x1-pos.x0)*figw, (pos.y1-pos.y0)*figh]
+
+    def get_position_mm(self, ax=None, original=True):
+        """
+        Returns axes position in millimeters (is this useful?).
+
+        Parameters
+        ----------
+        original : bool
+            If True, return the original position. Otherwise return the active
+            position. See :meth:`matplotlib.axes.Axes.get_position`.
+
+        Returns
+        -------
+        pos : [left, bottom, width, height]
+            The axes position in millimeters.
+        """
+        ax = ax or self.gca()
+        figw, figh = self.get_size_mm()
+        pos = ax.get_position(original=original)
+        return [pos.x0*figw, pos.y0*figh,
+                (pos.x1-pos.x0)*figw, (pos.y1-pos.y0)*figh]
+
     def subplots_inches(self, nrows=1, ncols=1, gridspec_kw=None, **kwargs):
         """
         Add a set of subplots to this figure with dimensions in inches.

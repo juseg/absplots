@@ -11,7 +11,7 @@ with open('README.rst', 'r') as f:
 
 setuptools.setup(
     name='absplots',
-    version='0.1.0',
+    version='0.2.0',
     author='Julien Seguinot',
     author_email='seguinot@vaw.baug.ethz.ch',
     description='Matplotlib subplots with absolute margins in mm or inches',

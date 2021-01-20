@@ -54,11 +54,10 @@ class AbsFigure(mfig.Figure):
         """Convert gridspec keywords from mm to relative."""
 
         # convert all non null arguments to inches
-        mm = 1/25.4
         if gridspec_kw is not None:
             for dim in ['left', 'right', 'bottom', 'top', 'wspace', 'hspace']:
                 if dim in gridspec_kw:
-                    gridspec_kw[dim] *= mm
+                    gridspec_kw[dim] /= 25.4
 
         # convert from inches to relative
         gridspec_kw = self._process_kw_inches(nrows, ncols, gridspec_kw)
@@ -324,10 +323,8 @@ def figure_mm(figsize=None, **kwargs):
     """
 
     # convert figure size to mm
-    mm = 1/25.4
     if figsize is not None:
-        figw, figh = figsize
-        figsize = (figw*mm, figh*mm)
+        figsize = tuple(dim/25.4 for dim in figsize)
 
     # create new figure
     fig = figure(figsize=figsize, **kwargs)
